@@ -1,0 +1,11 @@
+services:
+  navidrome:
+    image: deluan/navidrome:latest
+    user: 1002:1003
+    ports:
+      - "${EXT_PORT}:4533"
+    restart: unless-stopped
+    # environment:
+    volumes:
+      - "${MUSIC_PATH}"
+      - "${DATA_PATH}"

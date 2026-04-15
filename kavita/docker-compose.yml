@@ -1,0 +1,17 @@
+services:
+    kavita:
+        image: jvmilazz0/kavita:latest    
+        container_name: kavita
+        volumes:
+            - ${MANGA_PATH}:/manga
+            - ${COMICS_PATH}:/comics
+            - ${BOOKS_PATH}:/books
+            - kavita:/kavita/config 
+        environment:
+            - TZ=${TIMEZONE}
+        ports:
+            - "${EXT_PORT}:5000"
+        restart: unless-stopped
+
+volumes:
+  kavita:

@@ -1,0 +1,20 @@
+networks:
+  forgejo:
+    external: false
+
+services:
+  server:
+    image: codeberg.org/forgejo/forgejo:14
+    container_name: forgejo
+    environment:
+      - USER_UID
+      - USER_GID
+    restart: always
+    networks:
+      - forgejo
+    volumes:
+      - ${FORGEJO_DATA}:/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '${HTTPS_EXT_PORT}:3000'
+      - '${SSH_EXT_PORT}:22'
