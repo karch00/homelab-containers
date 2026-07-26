@@ -26,10 +26,19 @@ services:
       retries: 5
     restart: unless-stopped
 
+  powersync:
+    depends_on:
+      db:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+
   nginx:
     image: docker.io/nginx:stable
+    container_name: wger
     depends_on:
       - web
+      - powersync
     volumes:
       - ${CONFIG_PATH}/nginx.conf:/etc/nginx/conf.d/default.conf
       - ${DATA_PATH}/static:/wger/static:ro
@@ -43,6 +52,9 @@ services:
       retries: 5
       start_period: 30s
     restart: unless-stopped
+    networks:
+      - default
+      - homepage-network
 
   db:
     image: docker.io/postgres:15-alpine
@@ -146,3 +158,10 @@ volumes:
 networks:
   default:
     name: wger_network
+  homepage-network:
+    external: true
+
+include:
+  - path: ${DATA_PATH}/services/postgres.yaml
+  - path: ${DATA_PATH}/services/powersync.yaml
+  - path: ${DATA_PATH}/services/redis.yaml

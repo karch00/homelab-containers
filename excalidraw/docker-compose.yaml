@@ -1,0 +1,80 @@
+services:
+
+  # ── Frontend ────────────────────────────────────────────────────────────────
+  excalidraw:
+    image: alswl/excalidraw:v0.18.0-fork-b3
+    container_name: excalidraw
+    ports:
+      - ${EXT_PORT}:80
+    depends_on:
+      redis:
+        condition: service_healthy
+      excalidraw-room:
+        condition: service_started
+      excalidraw-storage:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - homepage-network
+      - excalidraw-internal
+
+  # ── Collaboration room server (WebSocket / Socket.IO) ─────────────────────
+  excalidraw-room:
+    image: excalidraw/excalidraw-room:sha-637e0df
+    container_name: excalidraw-room
+    ports:
+      - ${ROOM_PORT}:80
+    environment:
+      - REDIS_URI=redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - excalidraw-internal
+
+  # ── Storage backend (scene persistence via Redis) ─────────────────────────
+  excalidraw-storage:
+    image: alswl/excalidraw-storage-backend:v2023.11.11
+    container_name: excalidraw-storage
+    ports:
+      - ${STORAGE_PORT}:8080
+    environment:
+      - STORAGE_URI=redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - excalidraw-internal
+
+  # ── Redis (shared pub/sub + KV store for room & storage) ──────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: excalidraw-redis
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - excalidraw-internal
+
+volumes:
+  redis_data:
+
+networks:
+  homepage-network:
+    external: true
+  excalidraw-internal:  # internal service mesh, never exposed directly
+    driver: bridge

@@ -1,6 +1,7 @@
 services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
     restart: always
     ports:
       - "${EXT_PORT}:5678"
@@ -17,6 +18,12 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
       - ${N8N_FILES}:/files
+    networks:
+      - homepage-network
 
 volumes:
   n8n_data:
+
+networks:
+  homepage-network:
+    external: true

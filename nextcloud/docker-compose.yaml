@@ -8,14 +8,19 @@ services:
       - POSTGRES_DB
       - POSTGRES_USER
       - POSTGRES_PASSWORD
+    networks:
+      - default
 
   # https://hub.docker.com/_/redis
   redis:
     image: redis:8.6.2-alpine
     restart: always
+    networks:
+      - default
   
   app:
     image: nextcloud:stable
+    container_name: nextcloud
     restart: always
     ports:
       - ${EXT_PORT}:80
@@ -34,10 +39,16 @@ services:
     depends_on:
       - redis
       - db
+    networks:
+      - default
+      - homepage-network
 
 volumes:
   nextcloud:
   db:
 
+networks:
+  homepage-network:
+    external: true
 
 

@@ -1,0 +1,15 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    volumes:
+      - ${UPTIMEKUMA_DATA_PATH}:/app/data
+    ports:
+      - "${EXT_PORT}:3001"
+    networks:
+      - homepage-network
+    restart: always
+
+networks:
+  homepage-network:
+    external: true

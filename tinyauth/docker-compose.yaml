@@ -1,0 +1,16 @@
+services:
+  tinyauth:
+    image: ghcr.io/steveiliop56/tinyauth:v3
+    container_name: tinyauth
+    restart: unless-stopped
+    ports:
+      - ${EXT_PORT}:3000
+    environment:
+      - APP_URL=${APP_URL}
+      - SECRET=${TINYAUTH_SECRET}
+      - USERS=${TINYAUTH_USERS}
+      - COOKIE_SECURE=true
+      - RESOURCES_DIR=/resources
+      - BACKGROUND_IMAGE=/resources/background.png
+    volumes:
+      - ${DATA_PATH}/resources:/resources

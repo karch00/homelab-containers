@@ -1,0 +1,25 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    ports:
+      - ${EXT_PORT}:8080
+    volumes:
+      - ${STIRLINGPDF_DATA_PATH}/trainingData:/usr/share/tessdata
+      - ${STIRLINGPDF_DATA_PATH}/extraConfigs:/configs
+      - ${STIRLINGPDF_DATA_PATH}/customFiles:/customFiles
+      - ${STIRLINGPDF_DATA_PATH}/logs:/logs
+    environment:
+      - DOCKER_ENABLE_SECURITY=true
+      - SECURITY_ENABLE_LOGIN=true
+      - SECURITY_INITIALLOGIN_USERNAME
+      - SECURITY_INITIALLOGIN_PASSWORD
+      - INSTALL_BOOK_AND_ADVANCED_HTML_OPS
+      - LANGS
+    restart: unless-stopped
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true

@@ -1,0 +1,20 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    ports:
+      - "${EXT_PORT}:80"
+    volumes:
+      - ${DATA_PATH}:/data
+    environment:
+      DOMAIN: ${DOMAIN}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}          # docker run --rm -it vaultwarden/server /vaultwarden hash --preset owasp
+      SIGNUPS_ALLOWED: "false"
+      INVITATIONS_ALLOWED: "false"
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true

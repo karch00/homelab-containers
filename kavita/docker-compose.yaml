@@ -12,6 +12,12 @@ services:
         ports:
             - "${EXT_PORT}:5000"
         restart: unless-stopped
+        networks:
+          - homepage-network
 
 volumes:
   kavita:
+
+networks:
+  homepage-network:
+    external: true

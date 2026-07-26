@@ -1,0 +1,24 @@
+services:
+  crafty:
+    container_name: crafty_container
+    image: registry.gitlab.com/crafty-controller/crafty-4:latest
+    restart: always
+    environment:
+      - TZ=${TZ}
+    ports:
+      - "${EXT_PORT}:8443"       
+      - "${MC_PORT}:25565"
+      - "${VOICE_PORT}:24454/udp"
+      - "25500-25600:25500-25600" 
+    volumes:
+      - ${CRAFTY_PATH}/backups:/crafty/backups
+      - ${CRAFTY_PATH}/logs:/crafty/logs
+      - ${CRAFTY_PATH}/servers:/crafty/servers
+      - ${CRAFTY_PATH}/config:/crafty/app/config
+      - ${CRAFTY_PATH}/import:/craft/import
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true

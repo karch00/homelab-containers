@@ -1,0 +1,21 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ
+    volumes:
+      - ${JELLYFIN_DATA_PATH}/config:/config
+      - ${JELLYFIN_DATA_PATH}/media/tvshows:/data/tvshows
+      - ${JELLYFIN_DATA_PATH}/media/movies:/data/movies
+    ports:
+      - ${EXT_PORT}:8096
+    restart: unless-stopped
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true

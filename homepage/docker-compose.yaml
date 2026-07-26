@@ -1,0 +1,31 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - ${EXT_PORT}:3000
+    volumes:
+      - ${HOMEPAGE_DATA_PATH}/config:/app/config
+      - ${HOMEPAGE_DATA_PATH}/assets:/app/public/assets
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/host/root:ro,rslave
+      - /mnt/hdd/:/host/hdd:ro,rslave
+    environment:
+      - PUID=1000
+      - PGID=989
+      - HOMEPAGE_ALLOWED_HOSTS
+      - HOMEPAGE_VAR_MYSPEED_PASS=${MYSPEED_PASS}
+      - HOMEPAGE_VAR_FORGEJO_TOKEN=${FORGEJO_TOKEN}
+      - HOMEPAGE_VAR_NEXTCLOUD_USER=${NEXTCLOUD_USER}
+      - HOMEPAGE_VAR_NEXTCLOUD_PASS=${NEXTCLOUD_PASS}
+      - HOMEPAGE_VAR_NAVIDROME_TOKEN=${NAVIDROME_TOKEN}
+      - HOMEPAGE_VAR_NAVIDROME_SALT=${NAVIDROME_SALT}
+      - HOMEPAGE_VAR_JELLYFIN_TOKEN=${JELLYFIN_TOKEN}
+      - HOMEPAGE_VAR_KAVITA_TOKEN=${KAVITA_TOKEN}
+      - HOMEPAGE_VAR_HEADSCALE_TOKEN=${HEADSCALE_TOKEN}
+      - HOMEPAGE_VAR_HEADSCALE_NODEID=${HEADSCALE_NODEID}
+    restart: unless-stopped    
+
+networks:
+  default:
+    name: homepage-network

@@ -1,7 +1,3 @@
-networks:
-  forgejo:
-    external: false
-
 services:
   server:
     image: codeberg.org/forgejo/forgejo:14
@@ -12,9 +8,16 @@ services:
     restart: always
     networks:
       - forgejo
+      - homepage-network
     volumes:
       - ${FORGEJO_DATA}:/data
       - /etc/localtime:/etc/localtime:ro
     ports:
       - '${HTTPS_EXT_PORT}:3000'
       - '${SSH_EXT_PORT}:22'
+
+networks:
+  forgejo:
+    external: false
+  homepage-network:
+    external: true

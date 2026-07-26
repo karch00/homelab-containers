@@ -1,0 +1,22 @@
+services:
+  headscale:
+    image: docker.io/headscale/headscale:0.29.2
+    restart: unless-stopped
+    container_name: headscale
+    read_only: true
+    tmpfs:
+      - /var/run/headscale
+    ports:
+      - "${EXT_PORT}:8080"
+    volumes:
+      - ${HEADSCALE_PATH}/config:/etc/headscale:ro
+      - ${HEADSCALE_PATH}/lib:/var/lib/headscale
+    command: serve
+    healthcheck:
+        test: ["CMD", "headscale", "health"]
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true

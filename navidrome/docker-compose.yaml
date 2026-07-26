@@ -1,11 +1,20 @@
 services:
   navidrome:
     image: deluan/navidrome:latest
+    container_name: navidrome
     user: 1002:1003
     ports:
       - "${EXT_PORT}:4533"
     restart: unless-stopped
-    # environment:
+    environment:
+      - ND_LASTFM_SECRET
+      - ND_LASTFM_APIKEY
     volumes:
       - "${MUSIC_PATH}"
       - "${DATA_PATH}"
+    networks:
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true
