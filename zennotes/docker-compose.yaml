@@ -1,6 +1,6 @@
 services:
   zennotes:
-    image: adibhanna/zennotes
+    image: adibhanna/zennotes:latest
     container_name: zennotes-selfhosted
     restart: unless-stopped
     user: 1000:1000
@@ -14,14 +14,22 @@ services:
     cap_drop:
       - ALL
     volumes:
-      - ${ZENNOTES_VOLUME}/workspace:/workspace
+      - ${ZENNOTES_VOLUME}/Vault:/Vault
       - ${ZENNOTES_VOLUME}/data:/data
     environment:
       ZENNOTES_BIND: 0.0.0.0:7878
       ZENNOTES_CONFIG_PATH: /data/server.json
-      ZENNOTES_DEFAULT_VAULT_PATH: "/workspace"
-      ZENNOTES_BROWSE_ROOTS: "/workspace"
-      ZENNOTES_ALLOWED_ORIGINS: "http://localhost:7878,http://127.0.0.1:7878,http://172.16.0.1:7878"
+      ZENNOTES_DEFAULT_VAULT_PATH: "/Vault"
+      ZENNOTES_BROWSE_ROOTS: "/Vault"
+      ZENNOTES_ALLOWED_ORIGINS: "*"
+      ZENNOTES_TRUSTED_PROXIES: "172.16.0.1/12"
       ZENNOTES_AUTH_TOKEN: "${AUTH_TOKEN}"
       ZENNOTES_ALLOW_INSECURE_NOAUTH: 0
       ZENNOTES_BEHIND_TLS: 1
+    networks:
+      - default
+      - homepage-network
+
+networks:
+  homepage-network:
+    external: true
