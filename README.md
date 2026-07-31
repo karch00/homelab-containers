@@ -150,3 +150,10 @@ Diets, Routines, Measurements, etc.<br>
 It is very user-friendly and supports both web and application access.
 
 Use it *daily* to track all my fitness-related goals.
+
+###  <img src="https://cdn.jsdelivr.net/gh/selfhst/icons/png/zennotes.png" height="40" align="center" /> **[ [ZenNotes](https://github.com/ZenNotes/zennotes) ]**
+
+ZenNotes is a **note taking** application that offers both a local and a web application. Similar to obsidian, it uses
+markdown as its text rendering making it easy to use and very flexible for any user.
+
+I use it a lot to take notes that I would like to keep synced or within reach from multiple places.

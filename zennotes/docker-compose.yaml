@@ -1,0 +1,27 @@
+services:
+  zennotes:
+    image: adibhanna/zennotes
+    container_name: zennotes-selfhosted
+    restart: unless-stopped
+    user: 1000:1000
+    ports:
+      - "${EXT_PORT}:7878"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    volumes:
+      - ${ZENNOTES_VOLUME}/workspace:/workspace
+      - ${ZENNOTES_VOLUME}/data:/data
+    environment:
+      ZENNOTES_BIND: 0.0.0.0:7878
+      ZENNOTES_CONFIG_PATH: /data/server.json
+      ZENNOTES_DEFAULT_VAULT_PATH: "/workspace"
+      ZENNOTES_BROWSE_ROOTS: "/workspace"
+      ZENNOTES_ALLOWED_ORIGINS: "http://localhost:7878,http://127.0.0.1:7878,http://172.16.0.1:7878"
+      ZENNOTES_AUTH_TOKEN: "${AUTH_TOKEN}"
+      ZENNOTES_ALLOW_INSECURE_NOAUTH: 0
+      ZENNOTES_BEHIND_TLS: 1
