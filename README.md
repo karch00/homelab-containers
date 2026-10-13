@@ -109,15 +109,6 @@ It supports many users with their own drives, quotas, sharing, and collaborative
 
 Use it very frequently for file backup, storage and giving some friends some free cloud storage.
 
-### <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/stirling-pdf.svg" height="40" align="center" /> **[ [StirlingPDF](https://github.com/Stirling-Tools/Stirling-PDF) ]**
-StirlingPDF is a complete **PDF manipulation** tool with a friendly UI and powerful functionalities.<br>
-Although for single users it is completely free, having more than 3 individual users logged requires a paid subsription.
-This makes it powerful for individual users that are sceptical their data might be stored on third party websites
-(rightfully so).
-
-As described before, I use it to manipulate PDFs without having to rely on third-party services. Me being an individual,
-the subscription con does not concern me so much.
-
 ### <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/stoat.svg" height="40" align="center" /> **[ [Stoat](https://github.com/stoatchat/stoatchat) ]**
 Stoat is a **discord-like communication** platform that supports an extreme level of customization and compatible with
 most platforms, accessible via web. Support for text, automatic link embeds, voice calls, video calls and screensharing<br>
