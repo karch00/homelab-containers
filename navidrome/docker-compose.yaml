@@ -7,8 +7,9 @@ services:
       - "${EXT_PORT}:4533"
     restart: unless-stopped
     environment:
-      - ND_LASTFM_SECRET
-      - ND_LASTFM_APIKEY
+      - ND_BASEURL
+      - ND_PLUGINS_ENABLED
+      - ND_PLUGINS_AUTORELOAD
     volumes:
       - "${MUSIC_PATH}"
       - "${DATA_PATH}"
